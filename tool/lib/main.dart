@@ -2,13 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:generator/find_and_save.dart';
+import 'package:generator/saver.dart';
 import 'package:material_design_icons_flutter/icon_map.dart';
 
 // import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-//
+// 
 // const _1 = MdiIcons.abTesting;
-// const _2 = Icons.import_contacts;
+// const _2 = MdiIcons.twitter;
+// const _3 = MdiIcons.bookOpenBlankVariant;
+// const _4 = Icons.import_contacts;
 
 final icons = <IconTuple>[
   for (var kv in iconMap.entries)
@@ -23,21 +25,19 @@ final icons = <IconTuple>[
 ];
 
 Future<void> generate() async {
-  const propFilePath = '../src/main/resources/icons/mdi_icons.properties';
   const iconsDirPath = '../src/main/resources/icons/mdi_icons';
+  const propFilePath = '../src/main/resources/icons/mdi_icons.properties';
 
-  // prepare directory
+  // prepare directory and create gitkeep file
   final directory = Directory(iconsDirPath);
   if (await directory.exists()) {
     await directory.delete(recursive: true);
   }
-  await directory.create(recursive: true);
+  await File('$iconsDirPath/.gitkeep').create(recursive: true);
 
-  // save properties file
+  // save properties file and icon images
   await savePropertiesFile(icons, propFilePath);
-
-  // save icon images
-  await saveAllIcons(icons, iconsDirPath, alsoSaveLarge: false);
+  await saveAllIcons(icons, iconsDirPath);
 }
 
 void main() {
@@ -60,9 +60,7 @@ class MyApp extends StatelessWidget {
 }
 
 class IconPage extends StatefulWidget {
-  const IconPage({
-    Key? key,
-  }) : super(key: key);
+  const IconPage({Key? key}) : super(key: key);
 
   @override
   State<IconPage> createState() => _IconPageState();
@@ -75,16 +73,9 @@ class _IconPageState extends State<IconPage> {
     WidgetsBinding.instance?.addPostFrameCallback((_) => generate());
   }
 
-  Widget _buildIcon(IconData data, double size, Color color, Key key) {
-    return RepaintBoundary(
-      child: Icon(data, size: size, color: color, key: key),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    const color = Color(0xFF777777); // icon color
-
+    const color = Color.fromRGBO(128, 128, 128, 1.0); // icon color
     return Scaffold(
       appBar: AppBar(
         title: const Text('Icon Resource Generator'),
@@ -95,16 +86,20 @@ class _IconPageState extends State<IconPage> {
           children: [
             Stack(
               children: [
-                for (var icon in icons) //
-                  _buildIcon(icon.data, 16.0, color, icon.smallKey),
+                for (var icon in icons)
+                  RepaintBoundary(
+                    child: Icon(icon.data, size: 16.0, color: color, key: icon.smallKey),
+                  ),
               ],
             ),
-            // Stack(
-            //   children: [
-            //     for (var icon in icons) //
-            //       _buildIcon(icon.data, 32.0, color, icon.largeKey),
-            //   ],
-            // ),
+            Stack(
+              children: [
+                for (var icon in icons)
+                  RepaintBoundary(
+                    child: Icon(icon.data, size: 32.0, color: color, key: icon.largeKey),
+                  ),
+              ],
+            ),
           ],
         ),
       ),

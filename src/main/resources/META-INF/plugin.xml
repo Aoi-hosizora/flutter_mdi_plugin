@@ -1,10 +1,10 @@
 <idea-plugin>
     <id>com.aoihosizora.flutter_mdi_plugin</id>
-    <name>Flutter MdiIcons Marker</name>
+    <name>Flutter MdiIcons Previewer</name>
     <vendor email="a970335605@hotmail.com" url="https://Aoi-hosizora.github.com/">AoiHosizora</vendor>
 
     <description>
-        TODO description description description
+        A IntelliJ Platform Plugin for previewing material_design_icons_flutter icons (MdiIcons) before the code lines and in the code completion suggestion list.
     </description>
 
     <!-- Product and plugin compatibility requirements -->

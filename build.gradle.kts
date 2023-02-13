@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.aoihosizora.flutter_mdi_plugin"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -13,7 +13,7 @@ repositories {
 
 // Configure Gradle IntelliJ Plugin
 intellij {
-    pluginName.set("Flutter MdiIcons Marker")
+    pluginName.set("Flutter MdiIcons Previewer")
     version.set("2021.3.3")
     type.set("IC") // Target IDE Platform
 
@@ -21,12 +21,10 @@ intellij {
     plugins.set(listOf(
         "com.intellij.java",
         "Dart:213.7433", // https://plugins.jetbrains.com/plugin/6351-dart/versions
-        "io.flutter:72.0.1", // https://plugins.jetbrains.com/plugin/9212-flutter/versions
     ))
 }
 
 tasks {
-    // Set the JVM compatibility versions
     withType<JavaCompile> {
         sourceCompatibility = "11"
         targetCompatibility = "11"

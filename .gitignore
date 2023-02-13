@@ -33,5 +33,5 @@ bin/
 !**/src/test/**/bin/
 
 ### Custom ###
-**/resources/icons/
-**/resources/icons/mdi_icons/
+**/resources/icons/mdi_icons/*
+!**/resources/icons/mdi_icons/.gitkeep

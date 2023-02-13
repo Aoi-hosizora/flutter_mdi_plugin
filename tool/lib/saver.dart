@@ -23,8 +23,7 @@ Future<void> savePropertiesFile(List<IconTuple> icons, String path) async {
     var codepoint = tuple.data.codePoint;
     lines.add('# MdiIcons.$iconName (0x${codepoint.toRadixString(16)})');
     lines.add('name.$iconName=$iconName.png');
-    lines.add('codepoint.$codepoint=$iconName.png');
-    lines.add('');
+    lines.add('codepoint.$codepoint=$iconName.png\n');
   }
 
   final content = '''
@@ -39,38 +38,33 @@ ${lines.join('\n')}''';
   print('wrote $path');
 }
 
-Future<void> saveAllIcons(List<IconTuple> icons, String directory, {bool alsoSaveLarge = false}) async {
+Future<void> saveAllIcons(List<IconTuple> icons, String directory) async {
   for (var icon in icons) {
     await findIconAndSave(
       icon.smallKey,
       '$directory/${icon.name}.png',
       small: true,
     );
-    if (alsoSaveLarge) {
-      await findIconAndSave(
-        icon.largeKey,
-        '$directory/${icon.name}@2x.png',
-        small: false,
-      );
-    }
+    await findIconAndSave(
+      icon.largeKey,
+      '$directory/${icon.name}@2x.png', // <<< necessary
+      small: false,
+    );
   }
 }
 
 Future<void> findIconAndSave(Key key, String path, {bool small = true}) async {
-  final finder = find.byKey(key);
-  final element = finder.evaluate().first;
-
   Future<ui.Image> _captureImage(Element element) async {
     var renderObject = element.renderObject!;
     while (!renderObject.isRepaintBoundary) {
       renderObject = renderObject.parent! as RenderObject;
     }
 
-    // ignore: invalid_use_of_protected_member
-    final layer = renderObject.layer! as OffsetLayer;
+    final layer = renderObject.layer! as OffsetLayer; // ignore: invalid_use_of_protected_member
     return await layer.toImage(renderObject.paintBounds);
   }
 
+  final element = find.byKey(key).evaluate().first;
   final image = await _captureImage(element);
   final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
 
