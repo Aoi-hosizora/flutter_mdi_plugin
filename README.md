@@ -4,5 +4,5 @@
 
 ### Reference
 
-+ [Line Marker Provider](https://plugins.jetbrains.com/docs/intellij/line-marker-provider.html)
++ [Custom Language Support Tutorial - Annotator](https://plugins.jetbrains.com/docs/intellij/annotator.html)
 + [marius-h/flutter_enhancement_suite](https://github.com/marius-h/flutter_enhancement_suite)

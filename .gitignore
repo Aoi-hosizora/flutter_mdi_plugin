@@ -3,9 +3,10 @@
 .ionide/
 .history/
 .idea/
+.run/
 
 ### Build ###
-.gradle
+.gradle/
 !gradle/wrapper/gradle-wrapper.jar
 build/
 !**/src/main/**/build/
@@ -30,3 +31,7 @@ out/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+
+### Test ###
+/test/
+**/resources/flutter

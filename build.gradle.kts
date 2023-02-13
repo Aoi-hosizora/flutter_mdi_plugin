@@ -14,10 +14,16 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
+    pluginName.set("Flutter MdiIcons Marker")
     version.set("2021.3.3")
     type.set("IC") // Target IDE Platform
 
-    plugins.set(listOf(/* Plugin Dependencies */))
+    // Plugin Dependencies
+    plugins.set(listOf(
+        "com.intellij.java",
+        "Dart:213.7433", // https://plugins.jetbrains.com/plugin/6351-dart/versions
+        "io.flutter:72.0.1", // https://plugins.jetbrains.com/plugin/9212-flutter/versions
+    ))
 }
 
 tasks {
@@ -35,13 +41,13 @@ tasks {
         untilBuild.set("223.*")
     }
 
-    signPlugin {
-        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-        privateKey.set(System.getenv("PRIVATE_KEY"))
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
-    }
-
-    publishPlugin {
-        token.set(System.getenv("PUBLISH_TOKEN"))
-    }
+    // signPlugin {
+    //     certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
+    //     privateKey.set(System.getenv("PRIVATE_KEY"))
+    //     password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+    // }
+    //
+    // publishPlugin {
+    //     token.set(System.getenv("PUBLISH_TOKEN"))
+    // }
 }
