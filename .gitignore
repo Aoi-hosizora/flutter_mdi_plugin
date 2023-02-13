@@ -34,4 +34,5 @@ bin/
 
 ### Test ###
 /test/
-**/resources/flutter
+**/resources/icons/
+**/resources/icons/mdi_icons/

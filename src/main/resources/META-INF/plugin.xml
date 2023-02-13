@@ -1,36 +1,24 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <id>com.aoihosizora.flutter_mdi_plugin</id>
-
-    <!-- Public plugin name should be written in Title Case.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>Flutter MdiIcons Marker</name>
-
-    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="a970335605@hotmail.com" url="https://Aoi-hosizora.github.com/">AoiHosizora</vendor>
 
-    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description>
         TODO description description description
     </description>
 
-    <!-- Product and plugin compatibility requirements.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <!-- Product and plugin compatibility requirements -->
     <depends>com.intellij.modules.platform</depends>
     <depends>Dart</depends>
 
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <!-- Extension points defined by the plugin -->
     <extensions defaultExtensionNs="com.intellij">
         <annotator language="Dart"
-                   implementationClass="com.aoihosizora.flutter_mdi_plugin.FlutterEditorAnnotator"/>
+                   implementationClass="com.aoihosizora.flutter_mdi_plugin.FlutterIconAnnotator"/>
     </extensions>
 
     <extensions defaultExtensionNs="Dart">
-        <completionExtension implementation="com.aoihosizora.flutter_mdi_plugin.FlutterIconCompletionContributor"
+        <completionExtension implementation="com.aoihosizora.flutter_mdi_plugin.FlutterIconCompletion"
                              order="last"/>
     </extensions>
 </idea-plugin>
