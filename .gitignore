@@ -5,7 +5,7 @@
 .idea/
 .run/
 
-### Build ###
+### Gradle Build ###
 .gradle/
 !gradle/wrapper/gradle-wrapper.jar
 build/
@@ -32,7 +32,6 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
-### Test ###
-/test/
+### Custom ###
 **/resources/icons/
 **/resources/icons/mdi_icons/

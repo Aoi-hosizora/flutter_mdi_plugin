@@ -1,6 +1,5 @@
 package com.aoihosizora.flutter_mdi_plugin
 
-import com.google.common.base.CaseFormat
 import com.intellij.openapi.util.IconLoader
 import java.util.Properties
 import javax.swing.Icon
@@ -17,16 +16,14 @@ open class FlutterIcons<T>(propFile: String, private val iconClass: Class<T>) {
     }
 
     open fun getIconPath(prop: Properties, byName: String? = null, byCode: Int? = null): String? {
-        // Example of properties file:
-        // f01c9.codepoint=ab_testing
-        // ab_testing=/icons/mdi_icons/ab_testing.png
-        if (byName != null) {
-            return prop.getProperty(byName)
-        }
-        if (byCode != null) {
-            return prop.getProperty("$byCode.codepoint")?.let { prop.getProperty(it) }
-        }
-        return null
+        // # MdiIcons.abTesting (0xf01c9)
+        // name.abTesting=abTesting.png
+        // codepoint.983497=abTesting.png
+        val filename: String? =
+            if (byName != null) prop.getProperty("name.$byName")
+            else if (byCode != null) prop.getProperty("codepoint.$byCode")
+            else null
+        return filename?.let { "/icons/mdi_icons/$it" }
     }
 
     open fun getIconByName(name: String): Icon? {
@@ -42,7 +39,5 @@ open class FlutterIcons<T>(propFile: String, private val iconClass: Class<T>) {
     }
 }
 
-object FlutterMdiIcons : FlutterIcons<FlutterMdiIcons>("icons/mdi_icons.properties", FlutterMdiIcons::class.java) {
-    override fun getIconByName(name: String): Icon? =
-        super.getIconByName(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name)) // TODO
-}
+object FlutterMdiIcons :
+    FlutterIcons<FlutterMdiIcons>("icons/mdi_icons.properties", FlutterMdiIcons::class.java)

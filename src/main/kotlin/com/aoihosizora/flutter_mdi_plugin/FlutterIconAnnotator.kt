@@ -48,7 +48,7 @@ class FlutterIconAnnotator : Annotator {
         val param = params.split(',', limit = 2)[0].trim()
         return try {
             if (param.startsWith("0x", ignoreCase = true)) {
-                Integer.parseUnsignedInt(param.substring(2), 16) // TODO use decimal codepoint
+                Integer.parseUnsignedInt(param.substring(2), 16)
             } else {
                 Integer.parseUnsignedInt(param)
             }
