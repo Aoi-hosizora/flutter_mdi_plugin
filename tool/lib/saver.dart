@@ -40,20 +40,12 @@ ${lines.join('\n')}''';
 
 Future<void> saveAllIcons(List<IconTuple> icons, String directory) async {
   for (var icon in icons) {
-    await findIconAndSave(
-      icon.smallKey,
-      '$directory/${icon.name}.png',
-      small: true,
-    );
-    await findIconAndSave(
-      icon.largeKey,
-      '$directory/${icon.name}@2x.png', // <<< necessary
-      small: false,
-    );
+    await _findIconAndSave(icon.smallKey, '$directory/${icon.name}.png', small: true);
+    await _findIconAndSave(icon.largeKey, '$directory/${icon.name}@2x.png', small: false); // <<< necessary
   }
 }
 
-Future<void> findIconAndSave(Key key, String path, {bool small = true}) async {
+Future<void> _findIconAndSave(Key key, String path, {bool small = true}) async {
   Future<ui.Image> _captureImage(Element element) async {
     var renderObject = element.renderObject!;
     while (!renderObject.isRepaintBoundary) {

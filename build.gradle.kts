@@ -21,6 +21,7 @@ intellij {
     plugins.set(listOf(
         "com.intellij.java",
         "Dart:213.7433", // https://plugins.jetbrains.com/plugin/6351-dart/versions
+        "io.Flutter:72.0.1" // https://plugins.jetbrains.com/plugin/9212-flutter/versions
     ))
 }
 

@@ -6,11 +6,11 @@ import 'package:generator/saver.dart';
 import 'package:material_design_icons_flutter/icon_map.dart';
 
 // import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-// 
-// const _1 = MdiIcons.abTesting;
-// const _2 = MdiIcons.twitter;
-// const _3 = MdiIcons.bookOpenBlankVariant;
-// const _4 = Icons.import_contacts;
+//
+// const icon1 = MdiIcons.abTesting;
+// const icon2 = MdiIcons.twitter;
+// const icon3 = MdiIcons.bookOpenBlankVariant;
+// const icon4 = Icons.import_contacts;
 
 final icons = <IconTuple>[
   for (var kv in iconMap.entries)

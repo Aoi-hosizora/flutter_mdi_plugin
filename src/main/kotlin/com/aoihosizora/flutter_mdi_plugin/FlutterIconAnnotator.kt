@@ -24,8 +24,10 @@ class FlutterIconAnnotator : Annotator {
             val prefix = "MdiIcons."
             if (text.startsWith(prefix)) {
                 val name = text.substring(prefix.length).trim()
-                FlutterMdiIcons.getIconByName(name)?.let { icon ->
-                    attachIcon(element, holder, icon)
+                if (name.isNotEmpty()) {
+                    FlutterMdiIcons.getIconByName(name)?.let { icon ->
+                        attachGutterIcon(element, holder, icon)
+                    }
                 }
             }
         }
@@ -35,9 +37,11 @@ class FlutterIconAnnotator : Annotator {
             val prefix = if (element is DartNewExpression) "const _MdiIconData(" else "_MdiIconData("
             if (text.startsWith(prefix) && text.endsWith(")")) {
                 val params = text.substring(prefix.length, text.length - 1).trim()
-                parseCodepointFromParams(params)?.let { codepoint ->
-                    FlutterMdiIcons.getIconByCode(codepoint)?.let { icon ->
-                        attachIcon(element, holder, icon)
+                if (params.isNotEmpty()) {
+                    parseCodepointFromParams(params)?.let { codepoint ->
+                        FlutterMdiIcons.getIconByCode(codepoint)?.let { icon ->
+                            attachGutterIcon(element, holder, icon)
+                        }
                     }
                 }
             }
@@ -57,7 +61,7 @@ class FlutterIconAnnotator : Annotator {
         }
     }
 
-    private fun attachIcon(element: PsiElement, holder: AnnotationHolder, icon: Icon) {
+    private fun attachGutterIcon(element: PsiElement, holder: AnnotationHolder, icon: Icon) {
         val renderer = FlutterIconRenderer(text = element.text, icon = icon)
         holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
             .range(element)

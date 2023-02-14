@@ -10,23 +10,21 @@ import javax.swing.Icon
 class FlutterIconCompletion : DartCompletionExtension() {
     override fun createLookupElement(project: Project, suggestion: CompletionSuggestion): LookupElementBuilder? {
         val element = suggestion.element ?: return null
+        val name = element.name?.trim() ?: return null
         val declaringType = suggestion.declaringType?.trim() ?: return null
         val returnType = element.returnType?.trim() ?: return null
 
         // for `MdiIcons.xxx`
-        if (declaringType == "MdiIcons" && returnType == "IconData") {
-            val name = element.name?.trim() ?: return null
-            if (name.isNotBlank() && returnType.isNotBlank()) {
-                return FlutterMdiIcons.getIconByName(name)?.let { icon ->
-                    attachIcon(project, suggestion, icon)
-                }
+        if (name.isNotEmpty() && declaringType == "MdiIcons" && returnType == "IconData") {
+            return FlutterMdiIcons.getIconByName(name)?.let { icon ->
+                createIconLookupElement(project, suggestion, icon)
             }
         }
 
         return null
     }
 
-    private fun attachIcon(project: Project, suggestion: CompletionSuggestion, icon: Icon): LookupElementBuilder {
+    private fun createIconLookupElement(project: Project, suggestion: CompletionSuggestion, icon: Icon): LookupElementBuilder {
         return DartServerCompletionContributor
             .createLookupElement(project, suggestion)
             .withTypeText("", icon, false)

@@ -4,12 +4,12 @@ import com.intellij.openapi.util.IconLoader
 import java.util.Properties
 import javax.swing.Icon
 
-open class FlutterIcons<T>(propFile: String, private val iconClass: Class<T>) {
+open class FlutterIcons<T>(private val iconClass: Class<T>, propFilePath: String, private val iconDirPath: String) {
     private val prop: Properties = Properties()
 
     init {
         try {
-            prop.load(this::class.java.classLoader.getResourceAsStream(propFile))
+            prop.load(this::class.java.classLoader.getResourceAsStream(propFilePath))
         } catch (ex: Throwable) {
             // ignore
         }
@@ -23,21 +23,38 @@ open class FlutterIcons<T>(propFile: String, private val iconClass: Class<T>) {
             if (byName != null) prop.getProperty("name.$byName")
             else if (byCode != null) prop.getProperty("codepoint.$byCode")
             else null
-        return filename?.let { "/icons/mdi_icons/$it" }
+        val dirname = iconDirPath.trim('/')
+        return filename?.let { "/$dirname/$it" }
     }
 
     open fun getIconByName(name: String): Icon? {
-        return getIconFilePath(prop, byName = name)?.let { iconPath ->
-            IconLoader.findIcon(iconPath, iconClass)
+        return try {
+            getIconFilePath(prop, byName = name)?.let { iconPath ->
+                IconLoader.findIcon(iconPath, iconClass)
+            }
+        } catch (ex: Throwable) {
+            null
         }
     }
 
     open fun getIconByCode(code: Int): Icon? {
-        return getIconFilePath(prop, byCode = code)?.let { iconPath ->
-            IconLoader.findIcon(iconPath, iconClass)
+        return try {
+            getIconFilePath(prop, byCode = code)?.let { iconPath ->
+                IconLoader.findIcon(iconPath, iconClass)
+            }
+        } catch (ex: Throwable) {
+            null
         }
     }
 }
 
-object FlutterMdiIcons :
-    FlutterIcons<FlutterMdiIcons>("/icons/mdi_icons.properties", FlutterMdiIcons::class.java)
+class FlutterMdiIcons : FlutterIcons<FlutterMdiIcons>(
+    FlutterMdiIcons::class.java,
+    propFilePath = "icons/mdi_icons.properties",
+    iconDirPath = "icons/mdi_icons/"
+) {
+    companion object {
+        fun getIconByName(name: String) = FlutterMdiIcons().getIconByName(name)
+        fun getIconByCode(code: Int) = FlutterMdiIcons().getIconByCode(code)
+    }
+}
